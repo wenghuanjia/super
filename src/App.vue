@@ -1,12 +1,12 @@
 <template>
   <div class="App">
     <!-- <transition :name="transitionName"> -->
-    <!-- <keep-alive>
+    <keep-alive>
         <router-view v-if="$route.meta.keepAlive"></router-view>
       </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive"></router-view>-->
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
     <!-- </transition> -->
-    <router-view></router-view>
+    <!-- <router-view></router-view> -->
   </div>
 </template>
 
@@ -58,6 +58,7 @@ export default {
 #app,
 .App {
   height: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 .slide-right-enter-active,
 .slide-right-leave-active,

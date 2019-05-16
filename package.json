@@ -1,5 +1,5 @@
 {
-  "name": "super",
+  "name": "supermarket",
   "version": "1.0.0",
   "description": "this is unmanned supermarket",
   "author": "latiao",
@@ -12,7 +12,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "fastclick": "^1.0.6",
-    "vant": "^1.5.1",
+    "vant": "^1.6.18",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vueg": "^1.4.5",

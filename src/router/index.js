@@ -3,6 +3,7 @@ const index = r => require.ensure([], () => r(require('pages/index')), 'index') 
 const payment = r => require.ensure([], () => r(require('pages/payment')), 'payment') // 支付
 const payAfter = r => require.ensure([], () => r(require('pages/payAfter')), 'payAfter') // 支付
 const rechargeInfo = r => require.ensure([], () => r(require('pages/rechargeInfo')), 'rechargeInfo') // 支付信息
+const message = r => require.ensure([], () => r(require('pages/message')), 'message') // 支付信息
 const detail = r => require.ensure([], () => r(require('pages/detail')), 'detail') // 详情
 const admin = r => require.ensure([], () => r(require('pages/admin')), 'admin') // 后台首页
 const alogin = r => require.ensure([], () => r(require('pages/alogin')), 'alogin') // 后台登录
@@ -12,6 +13,7 @@ const acollent = r => require.ensure([], () => r(require('pages/acollent')), 'ac
 const arecord = r => require.ensure([], () => r(require('pages/arecord')), 'arecord') // 后台补货几率
 const awraning = r => require.ensure([], () => r(require('pages/awraning')), 'awraning') // 后台警示
 const auser = r => require.ensure([], () => r(require('pages/auser')), 'auser') // 后台用户管理
+const toggle = r => require.ensure([], () => r(require('pages/toggle')), 'toggle') // 后台用户管理
 const aadduser = r => require.ensure([], () => r(require('pages/aadduser')), 'aadduser') // 后台添加账户
 const afacility = r => require.ensure([], () => r(require('pages/afacility')), 'afacility') // 后台管理设备
 const asetname = r => require.ensure([], () => r(require('pages/asetname')), 'asetname') // 后台修改设备名称
@@ -76,6 +78,14 @@ const routes = [
         }
       },
       {
+        path: '/message',
+        name:　'message',
+        component: message,
+        meta: {
+          title: '留言'
+        }
+      },
+      {
         path: '/admin',
         component: admin,
         meta: {
@@ -122,6 +132,13 @@ const routes = [
         component: awraning,
         meta: {
           title: '警示'
+        }
+      },
+      {
+        path: '/toggle',
+        component: toggle,
+        meta: {
+          title: '界面管理'
         }
       },
       {

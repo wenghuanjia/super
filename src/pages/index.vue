@@ -97,9 +97,20 @@
         </div>
       </router-link>
     </ul> -->
+
     <div class="list">
-      <ul class="nav">
-        <router-link class="nav-item" :to="'detail/3'" tag="li">
+      <ul class="nav" v-if="way_flag == 6">
+        <router-link v-for="(item, index) in items" :key="index" class="nav-item" :to="item.status!=0?'':'/detail/'+item.id" tag="li">
+          <div class="pic">
+            <img :src="item.more.thumbnail" alt="">
+          </div>
+          <div class="desc">
+            <p class="p_name">{{ item.post_title }}</p>
+            <p class="p_price"><span>{{ item.post_keywords | formatMoney }}</span></p>
+          </div>
+        </router-link>
+
+        <!-- <router-link class="nav-item" :to="'/detail/4'" tag="li">
           <div class="pic">
             <img src="http://zgcxdz.com:10080/fs/img/jg/j0cUbz0OskZlmKoX9pav4Lk0SA7TOWEL.jpg" alt="">
           </div>
@@ -109,9 +120,19 @@
           </div>
         </router-link>
 
+        <router-link class="nav-item" :to="(shopInfo=='已售空'||shopInfo=='')?'':'/detail/4'" tag="li">
+          <div class="pic">
+            <img src="http://zgcxdz.com:10080/fs/img/jg/vahi6vHSaNuAvis9W02S1FOp3ZnCVYnn.jpg" alt="">
+          </div>
+          <div class="desc">
+            <p class="p_name">红烧牛肉面套装</p>
+            <p class="p_price"><span>{{ shopInfo | formatMoney }}</span></p>
+          </div>
+        </router-link>
+
         <router-link class="nav-item" to="" tag="li">
           <div class="pic">
-            <img src="http://zgcxdz.com:10080/fs/img/jg/j0cUbz0OskZlmKoX9pav4Lk0SA7TOWEL.jpg" alt="">
+            <img src="http://zgcxdz.com:10080/fs/img/jg/sEtY6FxwD9Om7qu5fv7u9eZNfqwsqRzh.jpg" alt="">
           </div>
           <div class="desc">
             <p class="p_name">红烧牛肉面套装</p>
@@ -121,7 +142,7 @@
 
         <router-link class="nav-item" to="" tag="li">
           <div class="pic">
-            <img src="http://zgcxdz.com:10080/fs/img/jg/j0cUbz0OskZlmKoX9pav4Lk0SA7TOWEL.jpg" alt="">
+            <img src="http://zgcxdz.com:10080/fs/img/jg/7lc9dxdQ6KCpvrYlvHt7mBhbXBqpBggQ.jpg" alt="">
           </div>
           <div class="desc">
             <p class="p_name">红烧牛肉面套装</p>
@@ -131,15 +152,36 @@
 
         <router-link class="nav-item" to="" tag="li">
           <div class="pic">
-            <img src="http://zgcxdz.com:10080/fs/img/jg/j0cUbz0OskZlmKoX9pav4Lk0SA7TOWEL.jpg" alt="">
+            <img src="http://zgcxdz.com:10080/fs/img/jg/l6A81XitbVhaqGXnRHwjogeyPWudIyXu.jpg" alt="">
           </div>
           <div class="desc">
             <p class="p_name">红烧牛肉面套装</p>
             <p class="p_price">¥<span>0.5</span></p>
           </div>
         </router-link>
+
+        <router-link class="nav-item" to="" tag="li">
+          <div class="pic">
+            <img src="http://zgcxdz.com:10080/fs/img/jg/M5RPfvzCHNwWLVqRCUpLIc1QPAEuTNHL.jpg" alt="">
+          </div>
+          <div class="desc">
+            <p class="p_name">红烧牛肉面套装</p>
+            <p class="p_price">¥<span>0.5</span></p>
+          </div>
+        </router-link>
+
+        <router-link class="nav-item" to="" tag="li">
+          <div class="pic">
+            <img src="http://zgcxdz.com:10080/fs/img/jg/AyHM1YSfvfaFIH0l15TOTSIJs12TXgXL.jpg" alt="">
+          </div>
+          <div class="desc">
+            <p class="p_name">红烧牛肉面套装</p>
+            <p class="p_price">¥<span>0.5</span></p>
+          </div>
+        </router-link> -->
       </ul>
     </div>
+
     <!-- <div class="nav-item">
       <div class="pic">
         <img width="100%" src="http://zgcxdz.com:10080/fs/img/sales_advertising/o4SHvigEGEjoECIrujRdu30Bac1WenFe.jpg" alt="">
@@ -163,80 +205,60 @@
     <div class="opinion-btn-content">
       <div class="opinion-btn">确定</div>
     </div> -->
-    <router-link class="nav-item" to="/payment" tag="li">
-      <div class="pic">        
-      </div>
-      <div class="desc">
-        <p class="p_name">若有需求、意见、 点击留言</p>
-        <p class="p_price"></p>
-      </div>
-    </router-link>
+    <ul>
+      <router-link class="nav-item" to="/message" tag="li">
+        <div class="pic">
+        </div>
+        <div class="desc">
+          <p class="p_name">若有需求、意见、 点击留言</p>
+          <p class="p_price"></p>
+        </div>
+      </router-link>
+    </ul>    
   </main>
 </template>
 
 <script>
-import { getShopLists } from '../service/getData'
+import { getShopLists, IsOnline, getShopsStatus, getShopStatus } from '../service/getData'
 import Vue from "vue";
+import { Toast } from "vant";
 import axios from 'axios'
 import vheader from "components/header/header";
-import { Swipe, SwipeItem, Lazyload } from "vant";
+import { Swipe, SwipeItem } from "vant";
 
-Vue.use(Swipe).use(SwipeItem).use(Lazyload, {
-  loading: '../assets/images/loading.gif'
-});
+Vue.use(Swipe).use(SwipeItem)
 export default {
   data() {
     return {
       isShow: true, // 隐藏列表
-      way_flag: 2, // 横向排列
-      way_flay_copy: 2,
+      way_flag: 6, // 横向排列
+      way_flay_copy: 6,
       items: [],
-      // items: [
-      //   {
-      //     title: "草莓",
-      //     price: "30.00",
-      //     sell_out_flag: true
-      //   },
-      //   {
-      //     title: "草莓",
-      //     price: "20.00",
-      //     sell_out_flag: true
-      //   },
-      //   {
-      //     title: "草莓",
-      //     price: "40.00",
-      //     sell_out_flag: true
-      //   },
-      //   {
-      //     title: "草莓",
-      //     price: "30.00",
-      //     sell_out_flag: false
-      //   },
-      //   {
-      //     title: "草莓",
-      //     price: "30.00",
-      //     sell_out_flag: true
-      //   },
-      //   {
-      //     title: "草莓",
-      //     price: "30.00",
-      //     sell_out_flag: false
-      //   },
-      //   {
-      //     title: "草莓",
-      //     price: "30.00",
-      //     sell_out_flag: true
-      //   }
-      // ]
+      shopInfo: '',
+      status: ''
     };
   },
   components: {
     vheader: vheader
   },
   methods: {
+    // 派放 vuex 中 actions 的 getPrice，并将对应的价格传递过去
     getPrice(price) {
-      // 派放 vuex 中 actions 的 getPrice，并将对应的价格传递过去
       this.$store.dispatch("getPrice", price);
+    },
+    // 获取总的商品列表
+    getShopLists() {
+      getShopLists().then(res => {
+        if (res.code === 1) {
+          this.items = res.data;
+          this.items.forEach(item => {
+            // 字段判断是否售空
+            item.status = 0;
+          })          
+        } else {
+          Toast(res.msg);
+        }
+      })
     },
     handleShow() {
       // 切换图片
@@ -249,19 +271,56 @@ export default {
       this.isShow = !this.isShow
       // 展示原来的商品列表
       this.way_flag = this.way_flay_copy
+    },
+    // 查询设备是否在线
+    handleIsOnline() {
+      let that = this;
+      IsOnline().then(res => {
+        let data = res.data.data;
+        if (res.code === 1) {
+          // 当设备在线，允许点击购买，并且需要判断当前商品是否还有剩余，有，允许点击购买，否则，不允许点击购买
+          // 当设备不在线，直接不允许购买
+          if (!data) {
+            getShopsStatus().then(res => {
+              if (res.code === 1) {
+                res.data.data.forEach(item => {
+                  if (item.openStatus == 1) {
+                    let id = item.post_id;
+                    this.items.forEach(s => {
+                      if (s.id == id) {
+                        s.status = 1
+                        s.post_keywords = '已售空'
+                      }
+                    })
+                  }
+                })
+              }
+            })
+          } else {
+            that.shopInfo = '已售空';
+            that.items.forEach(item => {
+              item.status = 1
+              item.post_keywords = '已售空'
+            })
+          }
+        } else {
+          Toast(res.msg)
+        }
+      })
+    }
+  },
+  filters: {
+    formatMoney(value) {
+      // 判断是否含有中文字符串
+      if (/.*[\u4e00-\u9fa5]+.*$/.test(value) || value.length  == 0) {
+        return value;
+      }
+      return '￥' + value;
     }
   },
   created () {
-    // 获取总的商品列表
-    getShopLists().then(res => {
-      if (res.code === 1) {
-        let i = 30;
-        this.items = res.data;
-        this.items.forEach(item => {
-          item.price = i++;
-        });
-      }
-    })    
+    this.getShopLists();
+    this.handleIsOnline();
   }
 };
 </script>
@@ -270,7 +329,7 @@ export default {
 @import "../assets/style/mixin.scss";
 
 .main-content {
-  background: #F0F0F0;
+  // background: #F0F0F0;
   min-height: 100%;
   height: auto;
   overflow: auto;
@@ -278,7 +337,10 @@ export default {
 
 .swiper-content {
   // margin-top: 1.92rem;
+  position: fixed;
+  z-index: 99;
   background: #fff;
+  width: 100%;
   img {
     width: 100%;
     vertical-align: middle;
@@ -286,6 +348,7 @@ export default {
 }
 
 .figure-content {
+  // margin-top: 66px;
   background: #fff;
   @include fj(start);
   padding: $p10 $p15;
@@ -314,6 +377,7 @@ export default {
 
 .list {
   width: 94%;
+  padding-top: 85px;
   margin: 0 3%;
 }
 .nav-item {
